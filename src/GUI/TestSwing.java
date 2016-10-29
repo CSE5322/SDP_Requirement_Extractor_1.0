@@ -96,6 +96,7 @@ public class TestSwing extends JFrame {
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(textArea, popupMenu);
 
+		//
 		JMenuItem mntmHighlightVerb = new JMenuItem("Highlight Verb");
 		JMenuItem mntmHighlightNoun = new JMenuItem("Highlight Noun");
 		JMenuItem mntmAddBuisnessProcess = new JMenuItem("Add Business Process");
@@ -107,7 +108,7 @@ public class TestSwing extends JFrame {
 				try {
 					HighlightSelectedWord();
 				} catch (BadLocationException e) {
-					// TODO Auto-generated catch block
+				
 					e.printStackTrace();
 				}
 			}
@@ -126,7 +127,7 @@ public class TestSwing extends JFrame {
 				try {
 					HighlightSelectedWord();
 				} catch (BadLocationException e) {
-					// TODO Auto-generated catch block
+				
 					e.printStackTrace();
 				}
 			}
@@ -147,7 +148,7 @@ public class TestSwing extends JFrame {
 				try {
 					AddVerbNounPairAsBusinessProcess();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+				
 					e.printStackTrace();
 				}
 			}
@@ -165,7 +166,7 @@ public class TestSwing extends JFrame {
 				try {
 					AddVerbNounPairAsStep();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 			}
@@ -184,7 +185,7 @@ public class TestSwing extends JFrame {
 				try {
 					AddVerbNounPairAsAction();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+				
 					e.printStackTrace();
 				}
 			}
