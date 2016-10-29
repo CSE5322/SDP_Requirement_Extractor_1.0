@@ -15,13 +15,13 @@ public class DefineBusinessProcessController {
 		this.repository = repository;
 	}
 	
-	public void AddBusinessProcess(BusinessProcess businessprocess){
+	public void addBusinessProcess(BusinessProcess businessprocess){
 		
 		AddComponent add = new AddComponent(repository, businessprocess);
 		add.execute();
 	}
 	
-    public void AddStep(Step step,int position){
+    public void addStep(Step step,int position){
 		
     	GetComponent get = new GetComponent(repository);
     	get.execute();
@@ -32,7 +32,7 @@ public class DefineBusinessProcessController {
 		add.execute();
 	}
     
-    public void AddAction(Step step,int position1, int position2){
+    public void addAction(Step step,int position1, int position2){
 		
     	GetComponent get = new GetComponent(repository);
     	get.execute();
