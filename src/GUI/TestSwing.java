@@ -1,4 +1,6 @@
 package GUI;
+import BusinessObjects.*;
+import Commands.*;
 
 
 import java.awt.BorderLayout;
@@ -256,7 +258,39 @@ public class TestSwing extends JFrame {
 			}
 
 			private void createNodes(DefaultMutableTreeNode top) {
+				
+				
+				Repository repository=new Repository();
+				
+				BusinessProcess bp1=new BusinessProcess(new Phrase("verb1","noun1"));
 
+				BusinessProcess bp2=new BusinessProcess(new Phrase("verb2","noun2"));
+				BusinessProcess bp3=new BusinessProcess(new Phrase("verb3","noun3"));
+				
+				
+				
+				Step s1=new Step(new Phrase("verb4", "noun4"));
+				Step s2=new Step(new Phrase("verb5", "noun5"));
+				Step s3=new Step(new Phrase("verb6", "noun6"));
+				
+				Action a1=new Action(new Phrase("verbA1","nounA1"));
+				Action a2=new Action(new Phrase("verbA1","nounA1"));
+				Action a3=new Action(new Phrase("verbA1","nounA1"));
+				
+				ListCommand cmd1=new AddComponent(bp1, s1); cmd1.execute();
+				 cmd1=new AddComponent(bp1, s2); cmd1.execute();
+				 cmd1=new AddComponent(bp1, s3); cmd1.execute();
+				 cmd1=new AddComponent(s1, a1); cmd1.execute();
+				 cmd1=new AddComponent(s2, a2); cmd1.execute();
+				 cmd1=new AddComponent(s3,a3); cmd1.execute();
+				 cmd1=new AddComponent(repository,bp1); cmd1.execute();
+				 cmd1=new AddComponent(repository,bp2); cmd1.execute();
+				 cmd1=new AddComponent(repository,bp3); cmd1.execute();
+				 
+				 top.add(repository);
+				
+				
+				
 				for (int i = 0; i < arrBP.size(); i++) {
 					BusinessProcess = new DefaultMutableTreeNode(arrBP.get(i));
 					top.add(BusinessProcess);

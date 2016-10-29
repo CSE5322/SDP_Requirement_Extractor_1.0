@@ -2,6 +2,8 @@ package BusinessObjects;
 
 import java.util.ArrayList;
 
+import javax.swing.tree.TreeNode;
+
 public class Step extends RequirementComponent
 {
 	//BusinessProcess parent;
@@ -23,5 +25,31 @@ public class Step extends RequirementComponent
 		actionsList = new ArrayList<Action>();
 	}
 	
+	public String toString()
+	{
+		//TODO 
+		return "Step sentance";
+	}
+	
+    public TreeNode getChildAt(int index) {
+        if (actionsList == null) {
+            throw new ArrayIndexOutOfBoundsException("node has no children");
+        }
+        return (TreeNode)actionsList.get(index);
+    }
+
+    /**
+     * Returns the number of children of this node.
+     *
+     * @return  an int giving the number of children of this node
+     */
+    public int getChildCount() {
+        if (actionsList == null) {
+            return 0;
+        } else {
+            return actionsList.size();
+        }
+    }
+	 
 
 }

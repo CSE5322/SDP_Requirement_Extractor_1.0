@@ -6,7 +6,7 @@ import BusinessObjects.Repository;
 import BusinessObjects.RequirementComponent;
 import BusinessObjects.Step;
 
-public class AddComponent {
+public class AddComponent extends ListCommand {
 	Object parent;
 	RequirementComponent child;
 	
