@@ -27,7 +27,7 @@ public class Repository extends DefaultMutableTreeNode {
 	
 	public String toString()
 	{
-		return "Repository";
+		return "Requirement";
 	}
 	
     public TreeNode getChildAt(int index) {
