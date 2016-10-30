@@ -61,6 +61,8 @@ public class TestSwing extends JFrame {
 	public ArrayList<String> arrSP = new ArrayList<String>();
 	public ArrayList<String> arrAC = new ArrayList<String>();
 	
+	Repository repository=new Repository();
+	
 	private JPanel contentPane;
 	DefaultMutableTreeNode BusinessProcess = null;
 	DefaultMutableTreeNode Step = null;
@@ -257,11 +259,11 @@ public class TestSwing extends JFrame {
 		btnGenerateRequirements.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				DefaultMutableTreeNode root = new DefaultMutableTreeNode("Requirements");
-				createNodes(root);
+				createNodes();
 				
-				treeModel= new DefaultTreeModel(root);
+				treeModel= new DefaultTreeModel(repository);
 				treeModel.addTreeModelListener(new TreeModelActionListener());
+				
 				tree = new JTree(treeModel);
 				
 				contentPane.add(tree);
@@ -279,14 +281,7 @@ public class TestSwing extends JFrame {
 
 			}
 
-			private void createNodes(DefaultMutableTreeNode top) {
-				
-				
-				Repository repository=new Repository();
-				
-				
-				//treeModel.addTreeModelListener(new MyTreeModelListener());
-				
+			private void createNodes() {
 				BusinessProcess bp1=new BusinessProcess(new Phrase("verb1","noun1"));
 				BusinessProcess bp2=new BusinessProcess(new Phrase("verb2","noun2"));
 				BusinessProcess bp3=new BusinessProcess(new Phrase("verb3","noun3"));
@@ -311,13 +306,13 @@ public class TestSwing extends JFrame {
 				 cmd1=new AddComponent(repository,bp2); cmd1.execute();
 				 cmd1=new AddComponent(repository,bp3); cmd1.execute();
 				 
-				 top.add(repository);
+				
 				
 				
 				
 				for (int i = 0; i < arrBP.size(); i++) {
 					BusinessProcess = new DefaultMutableTreeNode(arrBP.get(i));
-					top.add(BusinessProcess);
+					repository.add(BusinessProcess);
 					
 					BusinessProcess.setUserObject(arrBP);
 					for (int j = 0; j < arrSP.size(); j++) {
