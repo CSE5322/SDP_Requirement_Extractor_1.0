@@ -10,6 +10,7 @@ public class RET_GUI {
 
 	private JFrame frame;
 	private JTextField textField;
+	
 
 	/**
 	 * Launch the application.

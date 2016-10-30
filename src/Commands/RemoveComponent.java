@@ -8,29 +8,32 @@ import BusinessObjects.Step;
 
 public class RemoveComponent {
 	
-	Object parent;
 	RequirementComponent child;
-	public RemoveComponent(Object parent,RequirementComponent child) {
-		this.parent=parent;
+	
+	public RemoveComponent(RequirementComponent child) {
 		this.child=child;
 	}
 	
 	
 	public boolean execute()
 	{
+		Object parent = child.getParent();
+		
 		if(parent instanceof Repository )
 		{
-			//hello
-			 //return ((Repository) parent).getBusinessProcessList().add((BusinessProcess) child);
+			((Repository) parent).getBusinessProcessList().remove(child);
+			
+			return true;
 		}
 		else if(parent instanceof BusinessProcess)
 		{
-			//return ((BusinessProcess)parent).getStepsList().add((Step) child);
-			 //((BusinessProcess)parent).ggetadd((Step) child);
+			((BusinessProcess)parent).getStepsList().remove(child);
+			return true;
 		}
 		else if(parent instanceof Step)
 		{
-			//return ((Step)parent).getActionsList().add((Action) child);
+			((Step)parent).getActionsList().remove(child);
+			return true;
 		}
 			
 		return false;

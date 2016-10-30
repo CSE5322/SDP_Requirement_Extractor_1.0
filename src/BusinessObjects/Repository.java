@@ -7,10 +7,17 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 public class Repository extends DefaultMutableTreeNode {
-	
+	private static Repository instance;
 	private ArrayList<BusinessProcess> businessProcessList;
 	
-	public Repository()
+	
+	public static Repository getInstance(){
+		if(instance==null)
+			instance = new Repository();
+		return instance;
+	}
+	
+	private Repository()
 	{
 		businessProcessList = new ArrayList<BusinessProcess>();
 	}

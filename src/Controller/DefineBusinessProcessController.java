@@ -2,49 +2,64 @@ package Controller;
 
 import java.util.List;
 
+import BusinessObjects.Action;
 import BusinessObjects.BusinessProcess;
+import BusinessObjects.Phrase;
 import BusinessObjects.Repository;
 import BusinessObjects.Step;
 import Commands.AddComponent;
 import Commands.GetComponent;
 
 public class DefineBusinessProcessController {
-	Repository repository;
 	
-	public DefineBusinessProcessController(Repository repository){
-		this.repository = repository;
+	public List<BusinessProcess> getBusinessProcesses(){
+		return Repository.getInstance().getBusinessProcessList();
 	}
 	
-	public void addBusinessProcess(BusinessProcess businessprocess){
+	public List<Step> getSteps(BusinessProcess bp){
+		return bp.getStepsList();
+	}
+	
+	public List<Action> getActions(Step step){
+		return step.getActionsList();
+	}
+
+	public void createBusinessProcess(String verb, String noun, String sentence, int position){
 		
-		AddComponent add = new AddComponent(repository, businessprocess);
+		Phrase phrase = new Phrase(verb, noun);
+		
+		if(sentence!=null && sentence.length()>0)
+			phrase.setSentence(sentence);
+		
+		BusinessProcess bp = new BusinessProcess(phrase);
+		
+		AddComponent add = new AddComponent(Repository.getInstance(), bp, position);
 		add.execute();
 	}
 	
-    public void addStep(Step step,int position){
+    public void createStep(String verb, String noun, String sentence,BusinessProcess bp ,int position){
 		
-    	GetComponent get = new GetComponent(repository);
-    	get.execute();
-    	
-    	BusinessProcess parent = ((List<BusinessProcess>)get.getResult()).get(position);
-    	
-		AddComponent add = new AddComponent(repository, parent);
+        Phrase phrase = new Phrase(verb, noun);
+		
+		if(sentence!=null && sentence.length()>0)
+			phrase.setSentence(sentence);
+		
+		Step step = new Step(phrase);
+		
+		AddComponent add = new AddComponent(bp, step, position);
 		add.execute();
 	}
     
-    public void addAction(Step step,int position1, int position2){
+    public void addAction(String verb, String noun, String sentence, Step step ,int position){
 		
-    	GetComponent get = new GetComponent(repository);
-    	get.execute();
-    	
-    	BusinessProcess bp = ((List<BusinessProcess>)get.getResult()).get(position1);
-    	
-    	get = new GetComponent(bp);
-    	get.execute();
-    	
-    	Step parent = ((List<Step>)get.getResult()).get(position2);
-    	
-		AddComponent add = new AddComponent(repository, parent);
-		add.execute();
+    	Phrase phrase = new Phrase(verb, noun);
+ 		
+ 		if(sentence!=null && sentence.length()>0)
+ 			phrase.setSentence(sentence);
+ 		
+ 		Action action = new Action(phrase);
+ 		
+ 		AddComponent add = new AddComponent(step, action, position);
+ 		add.execute();
 	}
 }

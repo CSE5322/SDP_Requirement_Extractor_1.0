@@ -22,16 +22,19 @@ public class AddComponent extends ListCommand {
 		
 		if(parent instanceof Repository )
 		{
+			child.setParent(null);
 			((Repository) parent).getBusinessProcessList().add(index,(BusinessProcess) child);
 			return true;
 		}
 		else if(parent instanceof BusinessProcess)
 		{
+			child.setParent(((BusinessProcess)parent));
 			((BusinessProcess)parent).getStepsList().add(index ,(Step) child);
 			return true;
 		}
 		else if(parent instanceof Step)
 		{
+			child.setParent(((Step)parent));
 			((Step)parent).getActionsList().add(index ,(Action) child);
 			return true;
 		}

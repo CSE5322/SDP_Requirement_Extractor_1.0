@@ -61,7 +61,7 @@ public class TestSwing extends JFrame {
 	public ArrayList<String> arrSP = new ArrayList<String>();
 	public ArrayList<String> arrAC = new ArrayList<String>();
 	
-	Repository repository=new Repository();
+	Repository repository=Repository.getInstance();
 	
 	private JPanel contentPane;
 	DefaultMutableTreeNode BusinessProcess = null;
@@ -259,7 +259,9 @@ public class TestSwing extends JFrame {
 		btnGenerateRequirements.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				createNodes();
+				if(tree==null){
+					createNodes();
+				}
 				
 				treeModel= new DefaultTreeModel(repository);
 				treeModel.addTreeModelListener(new TreeModelActionListener());
@@ -274,8 +276,8 @@ public class TestSwing extends JFrame {
 					   DefaultMutableTreeNode selectedNode = 
 					       (DefaultMutableTreeNode)tree.getLastSelectedPathComponent(); 
 				
-					         System.out.println(tree.getSelectionPath());
-					         System.out.println(((RequirementComponent)selectedNode).getPhrase());
+					      
+					         System.out.println(((RequirementComponent)selectedNode).getDepth());
 					  }
 					});
 
@@ -285,9 +287,7 @@ public class TestSwing extends JFrame {
 				BusinessProcess bp1=new BusinessProcess(new Phrase("verb1","noun1"));
 				BusinessProcess bp2=new BusinessProcess(new Phrase("verb2","noun2"));
 				BusinessProcess bp3=new BusinessProcess(new Phrase("verb3","noun3"));
-				
-				
-				
+
 				Step s1=new Step(new Phrase("verb4", "noun4"));
 				Step s2=new Step(new Phrase("verb5", "noun5"));
 				Step s3=new Step(new Phrase("verb6", "noun6"));
@@ -296,19 +296,15 @@ public class TestSwing extends JFrame {
 				Action a2=new Action(new Phrase("verbA1","nounA1"));
 				Action a3=new Action(new Phrase("verbA1","nounA1"));
 				
-				ListCommand cmd1=new AddComponent(bp1, s1); cmd1.execute();
-				 cmd1=new AddComponent(bp1, s2); cmd1.execute();
-				 cmd1=new AddComponent(bp1, s3); cmd1.execute();
-				 cmd1=new AddComponent(s1, a1); cmd1.execute();
-				 cmd1=new AddComponent(s2, a2); cmd1.execute();
-				 cmd1=new AddComponent(s3,a3); cmd1.execute();
-				 cmd1=new AddComponent(repository,bp1); cmd1.execute();
-				 cmd1=new AddComponent(repository,bp2); cmd1.execute();
-				 cmd1=new AddComponent(repository,bp3); cmd1.execute();
-				 
-				
-				
-				
+				ListCommand cmd1=new AddComponent(bp1, s1,0); cmd1.execute();
+				 cmd1=new AddComponent(bp1, s2,0); cmd1.execute();
+				 cmd1=new AddComponent(bp1, s3,0); cmd1.execute();
+				 cmd1=new AddComponent(s1, a1,0); cmd1.execute();
+				 cmd1=new AddComponent(s2, a2,0); cmd1.execute();
+				 cmd1=new AddComponent(s3,a3,0); cmd1.execute();
+				 cmd1=new AddComponent(repository,bp1,0); cmd1.execute();
+				 cmd1=new AddComponent(repository,bp2,0); cmd1.execute();
+				 cmd1=new AddComponent(repository,bp3,0); cmd1.execute();
 				
 				for (int i = 0; i < arrBP.size(); i++) {
 					BusinessProcess = new DefaultMutableTreeNode(arrBP.get(i));
