@@ -3,8 +3,16 @@ package BusinessObjects;
 public class Phrase {
 	private String verb;
 	private String noun;
-	private String setence;
+	private String sentence;
 	
+	public String getSentence() {
+		return sentence;
+	}
+
+	public void setSentence(String sentence) {
+		this.sentence = sentence;
+	}
+
 	public String getVerb() {
 		return verb;
 	}
@@ -21,20 +29,15 @@ public class Phrase {
 		this.noun = noun;
 	}
 
-	public String getSetence() {
-		return setence;
-	}
 
-	public void setSetence(String setence) {
-		this.setence = setence;
-	}
+
 
 	
 	public Phrase(String v, String n)
 	{
 		verb = v;
 		noun = n;
-		setence = createSentence();
+		sentence = createSentence();
 	}
 	
 	String createSentence()

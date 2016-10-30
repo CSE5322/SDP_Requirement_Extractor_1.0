@@ -28,7 +28,7 @@ public class Step extends RequirementComponent
 	public String toString()
 	{
 		//TODO 
-		return "Step sentance";
+		return this.getPhrase().getSentence();
 	}
 	
     public TreeNode getChildAt(int index) {

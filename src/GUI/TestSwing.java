@@ -11,6 +11,8 @@ import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Document;
@@ -20,6 +22,8 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
 import BusinessObjects.Phrase;
 
@@ -48,7 +52,11 @@ import javax.swing.JTree;
 
 public class TestSwing extends JFrame {
 
-	
+	protected JTree tree = null;
+	protected DefaultMutableTreeNode root;
+    protected DefaultTreeModel treeModel;
+    
+	//DefaultTreeModel treeModel = new DefaultTreeModel(tree);
 	public ArrayList<String> arrBP = new ArrayList<String>();
 	public ArrayList<String> arrSP = new ArrayList<String>();
 	public ArrayList<String> arrAC = new ArrayList<String>();
@@ -248,12 +256,26 @@ public class TestSwing extends JFrame {
 		JButton btnGenerateRequirements = new JButton("Generate Requirements");
 		btnGenerateRequirements.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JTree tree = null;
-				DefaultMutableTreeNode top = new DefaultMutableTreeNode("Requirements");
-				createNodes(top);
-				tree = new JTree(top);
+				
+				DefaultMutableTreeNode root = new DefaultMutableTreeNode("Requirements");
+				createNodes(root);
+				
+				treeModel= new DefaultTreeModel(root);
+				treeModel.addTreeModelListener(new TreeModelActionListener());
+				tree = new JTree(treeModel);
+				
 				contentPane.add(tree);
 				tree.setBounds(10, 343, 704, 300);
+				tree.addTreeSelectionListener(new TreeSelectionListener() {
+
+					public void valueChanged(TreeSelectionEvent e) {
+					   DefaultMutableTreeNode selectedNode = 
+					       (DefaultMutableTreeNode)tree.getLastSelectedPathComponent(); 
+				
+					         System.out.println(tree.getSelectionPath());
+					         System.out.println(((RequirementComponent)selectedNode).getPhrase());
+					  }
+					});
 
 			}
 
@@ -262,8 +284,10 @@ public class TestSwing extends JFrame {
 				
 				Repository repository=new Repository();
 				
+				
+				//treeModel.addTreeModelListener(new MyTreeModelListener());
+				
 				BusinessProcess bp1=new BusinessProcess(new Phrase("verb1","noun1"));
-
 				BusinessProcess bp2=new BusinessProcess(new Phrase("verb2","noun2"));
 				BusinessProcess bp3=new BusinessProcess(new Phrase("verb3","noun3"));
 				
@@ -313,6 +337,26 @@ public class TestSwing extends JFrame {
 		});
 		btnGenerateRequirements.setBounds(729, 113, 204, 29);
 		contentPane.add(btnGenerateRequirements);
+		
+		JButton editButton = new JButton("Edit");
+		editButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tree.setEditable(true);
+				
+				
+			}
+		});
+		editButton.setBounds(726, 194, 204, 29);
+		contentPane.add(editButton);
+		
+		JButton saveButton = new JButton("Save");
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tree.setEditable(false);
+			}
+		});
+		saveButton.setBounds(729, 235, 204, 29);
+		contentPane.add(saveButton);
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {

@@ -2,9 +2,12 @@ package BusinessObjects;
 
 import java.util.ArrayList;
 
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
-public class BusinessProcess extends RequirementComponent
+public class BusinessProcess extends RequirementComponent 
 {
 	private ArrayList<Step> stepsList;
 	
@@ -26,7 +29,7 @@ public class BusinessProcess extends RequirementComponent
 	public String toString()
 	{
 		//TODO 
-		return "Business Process sentance";
+		return this.getPhrase().getSentence();
 	}
 
     public TreeNode getChildAt(int index) {
@@ -48,6 +51,9 @@ public class BusinessProcess extends RequirementComponent
             return stepsList.size();
         }
     }
+
+	
+
 	 
 
 	

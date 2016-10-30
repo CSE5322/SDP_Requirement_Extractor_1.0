@@ -13,8 +13,10 @@ public class Action extends RequirementComponent {
 	}
 	public String toString()
 	{
+		String verb=this.getPhrase().getVerb();
+		String noun=this.getPhrase().getNoun();
 		//TODO 
-		return "Action sentance";
+		return "System will allow user to" + verb + " " + noun;
 	}
 	
     public TreeNode getChildAt(int index) {
