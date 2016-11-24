@@ -2,7 +2,6 @@ package GUI;
 import BusinessObjects.*;
 import Commands.*;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -17,6 +16,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Document;
 import javax.swing.text.Highlighter;
+import javax.swing.text.Highlighter.Highlight;
 import javax.swing.text.Highlighter.HighlightPainter;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.Style;
@@ -30,6 +30,7 @@ import BusinessObjects.Phrase;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -37,6 +38,7 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -46,6 +48,7 @@ import java.awt.Label;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
+
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JTree;
@@ -67,6 +70,9 @@ public class TestSwing extends JFrame {
 	DefaultMutableTreeNode BusinessProcess = null;
 	DefaultMutableTreeNode Step = null;
 	DefaultMutableTreeNode Action = null;
+	
+	Highlighter highlighter;
+	JTextArea textArea;
 
 	/**
 	 * Launch the application.
@@ -90,20 +96,22 @@ public class TestSwing extends JFrame {
 	 */
 	public TestSwing() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 970, 715);
+		setBounds(100, 100, 970, 715);		
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JTextArea textArea = new JTextArea();
+		textArea = new JTextArea();
 		textArea.setWrapStyleWord(true);
 		textArea.setLineWrap(true);
 		textArea.setBounds(0, 27, 714, 300);
 		textArea.setFont(new Font("Calibri", Font.ITALIC, 20));
 		textArea.setSelectedTextColor(Color.red);
 		contentPane.add(textArea);
+		
+		highlighter = textArea.getHighlighter();
 
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(textArea, popupMenu);
@@ -127,9 +135,8 @@ public class TestSwing extends JFrame {
 
 			public void HighlightSelectedWord() throws BadLocationException {
 
-				textArea.getHighlighter().addHighlight(textArea.getSelectionStart(), textArea.getSelectionEnd(),
+				highlighter.addHighlight(textArea.getSelectionStart(), textArea.getSelectionEnd(),
 						new DefaultHighlighter.DefaultHighlightPainter(Color.yellow));
-
 			}
 
 		});
@@ -146,7 +153,7 @@ public class TestSwing extends JFrame {
 
 			public void HighlightSelectedWord() throws BadLocationException {
 
-				textArea.getHighlighter().addHighlight(textArea.getSelectionStart(), textArea.getSelectionEnd(),
+				highlighter.addHighlight(textArea.getSelectionStart(), textArea.getSelectionEnd(),
 						new DefaultHighlighter.DefaultHighlightPainter(Color.green));
 
 			}
@@ -165,11 +172,12 @@ public class TestSwing extends JFrame {
 				}
 			}
 
-			public void AddVerbNounPairAsBusinessProcess() {
-				arrBP.add(textArea.getSelectedText());				
-				MappingDialog bpDialog = new MappingDialog(true, true, false, false);
-				bpDialog.setLocationRelativeTo(currentFrame);
-				bpDialog.setVisible(true);
+			public void AddVerbNounPairAsBusinessProcess() throws BadLocationException {	
+			//	arrBP.add(textArea.getSelectedText());		
+				RequirementComponent component = new BusinessProcess(getPhrase()); 
+				//MappingDialog bpDialog = new MappingDialog(component);
+				//bpDialog.setLocationRelativeTo(currentFrame);
+				//bpDialog.setVisible(true);
 			}
 		});
 
@@ -183,11 +191,12 @@ public class TestSwing extends JFrame {
 				}
 			}
 
-			public void AddVerbNounPairAsStep() {
-				arrSP.add(textArea.getSelectedText());
-				MappingDialog stepDialog = new MappingDialog(true, true, true, false);
-				stepDialog.setLocationRelativeTo(currentFrame);
-				stepDialog.setVisible(true);
+			public void AddVerbNounPairAsStep() throws BadLocationException {
+		//		arrSP.add(textArea.getSelectedText());
+				RequirementComponent component = new Step(getPhrase()); 
+				//MappingDialog stepDialog = new MappingDialog(component);
+				//stepDialog.setLocationRelativeTo(currentFrame);
+				//stepDialog.setVisible(true);
 			}
 		});
 
@@ -202,11 +211,12 @@ public class TestSwing extends JFrame {
 				}
 			}
 
-			public void AddVerbNounPairAsAction() {
-				arrAC.add(textArea.getSelectedText());
-				MappingDialog actionDialog = new MappingDialog(true, true, true, true);
-				actionDialog.setLocationRelativeTo(currentFrame);
-				actionDialog.setVisible(true);
+			public void AddVerbNounPairAsAction() throws BadLocationException {
+			//	arrAC.add(textArea.getSelectedText());
+				RequirementComponent component = new Action(getPhrase()); 
+				//MappingDialog actionDialog = new MappingDialog(component);
+				//actionDialog.setLocationRelativeTo(currentFrame);
+				//actionDialog.setVisible(true);
 			}
 		});
 
@@ -259,6 +269,37 @@ public class TestSwing extends JFrame {
 		btnGenerateRequirements.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				ArrayList<BusinessProcess> businessProcessList
+				 = new ArrayList<BusinessObjects.BusinessProcess>();
+				
+				for(int i = 0; i < 3; i++){
+					Phrase phrase = new Phrase("bverb"+i, "bnoun"+i);
+					
+					BusinessProcess bp = new BusinessProcess(phrase);
+					
+					for(int j = 0; j<3; j++){
+						Phrase phrase1 = new Phrase("sverb"+i, "snoun"+i);
+						Step step = new Step(phrase1);
+						
+						for(int k = 0; k<3;k++){
+							Phrase phrase2 = new Phrase("averb"+i, "anoun"+i);
+							Action action = new Action(phrase2);
+							
+							step.getActionsList().add(action);
+						}
+						
+						bp.getStepsList().add(step);
+					}
+					businessProcessList.add(bp);
+				}
+				
+				Repository.getInstance().setBusinessProcessList(businessProcessList);
+				
+				System.out.println(">>>>");
+				
+				new GenerateDialog().setVisible(true);
+				
+				/*
 				if(tree==null){
 					createNodes();
 				}
@@ -275,11 +316,12 @@ public class TestSwing extends JFrame {
 					public void valueChanged(TreeSelectionEvent e) {
 					   DefaultMutableTreeNode selectedNode = 
 					       (DefaultMutableTreeNode)tree.getLastSelectedPathComponent(); 
-				
-					      
+					
+						   
 					         System.out.println(((RequirementComponent)selectedNode).getDepth());
 					  }
 					});
+					*/
 
 			}
 
@@ -333,8 +375,6 @@ public class TestSwing extends JFrame {
 		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tree.setEditable(true);
-				
-				
 			}
 		});
 		editButton.setBounds(726, 194, 204, 29);
@@ -368,5 +408,25 @@ public class TestSwing extends JFrame {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+	}
+	
+	private Phrase getPhrase() throws BadLocationException
+	{
+		String verb=null, noun=null;				
+		for(Highlight highlight : highlighter.getHighlights())
+		{				
+			if(highlight.getStartOffset() >= textArea.getSelectionStart() && highlight.getEndOffset() <= textArea.getSelectionEnd())
+			{
+				if(((DefaultHighlighter.DefaultHighlightPainter)highlight.getPainter()).getColor() == Color.yellow)
+				{
+					verb = textArea.getText(highlight.getStartOffset(),highlight.getEndOffset()-highlight.getStartOffset());
+				}
+				else if(((DefaultHighlighter.DefaultHighlightPainter)highlight.getPainter()).getColor() == Color.green)
+				{
+					noun = textArea.getText(highlight.getStartOffset(),highlight.getEndOffset()-highlight.getStartOffset());
+				}
+			}
+		}
+		return new Phrase(verb,noun);
 	}
 }

@@ -37,6 +37,16 @@ public class Repository extends DefaultMutableTreeNode {
 		return "Requirement";
 	}
 	
+	public String[] toStringArray()
+	{
+		String[] bpStringArray = new String[businessProcessList.size()];
+		for(int i=0; i<businessProcessList.size(); i++)
+		{
+			bpStringArray[i]=businessProcessList.get(i).getPhrase().getVerbNounPair();
+		}
+		return bpStringArray;
+	}
+	
     public TreeNode getChildAt(int index) {
         if (businessProcessList == null) {
             throw new ArrayIndexOutOfBoundsException("node has no children");
@@ -57,7 +67,10 @@ public class Repository extends DefaultMutableTreeNode {
         }
     }
 	
-
+    public int getIndex(BusinessProcess bp)
+	{
+		return businessProcessList.indexOf(bp);
+	}
 	
 	
 }

@@ -45,4 +45,8 @@ public class Phrase {
 		return verb + " " + noun;
 	}
 
+	public String getVerbNounPair() {
+		return verb + " " + noun;
+	}
+
 }

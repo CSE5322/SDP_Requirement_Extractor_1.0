@@ -23,6 +23,11 @@ public class DefineBusinessProcessController {
 	public List<Action> getActions(Step step){
 		return step.getActionsList();
 	}
+	
+	public Repository getRepository()
+	{
+		return Repository.getInstance();
+	}
 
 	public void createBusinessProcess(String verb, String noun, String sentence, int position){
 		
